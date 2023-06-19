@@ -7,6 +7,12 @@ section {
     align-items: center;
 }
 
+.game__heading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .card__pair {
     display: flex;
     justify-content: center;
@@ -35,6 +41,13 @@ section {
 .card__sign {
     display: none;
     transform: rotateY(180deg);
+}
+
+.game__footer {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
 }
 
 .show {

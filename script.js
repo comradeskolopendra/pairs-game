@@ -1,30 +1,37 @@
 const cells = document.querySelectorAll(".card__pair");
-
-cells.forEach((element) => {
-  element.addEventListener("click", (event) => rotateCell(event));
-});
+const title = document.querySelector("h1");
+const restartGameContainer = document.querySelector(".game__footer");
+const restartGameButton = document.querySelector("#restart");
 
 function rotateCell(event) {
   const cell = event.currentTarget;
-  const sign = cell.querySelector(".card__sign");
-
   cell.classList.add("card__rotate");
   cell.dataset.active = "true";
+  const activeCells = document.querySelectorAll(`[data-active="true"]`);
+  const sign = cell.querySelector(".card__sign");
 
   showSign(sign);
 
-  const activeCells = document.querySelectorAll(`[data-active="true"]`);
+  if (checkComplete()) {
+    title.textContent = "Вы выиграли!"
+    restartGameContainer.classList.add("show");
+  }
+
   if (activeCells.length === 2) {
-    compareCells(...activeCells);
+    return compareCells(...activeCells);
   }
 }
 
-function showSign(sign) {
-  return setTimeout(() => sign.classList.add("show"), 300);
-}
+function restartGame() {
+  cells.forEach(element => {
+    const sign = element.querySelector(".card__sign");
 
-function hideSign(sign) {
-  return setTimeout(() => sign.classList.remove("show"));
+    hideSign(sign);
+    element.classList.remove("correct", "card__rotate")
+  })
+
+  title.textContent = "";
+  restartGameContainer.classList.remove("show");
 }
 
 function compareCells(firstCell, secondCell) {
@@ -39,13 +46,7 @@ function compareCells(firstCell, secondCell) {
     flag = true;
   }
 
-  return updateBorder(
-    [
-      [firstCell, firstSign],
-      [secondCell, secondSign],
-    ],
-    flag
-  );
+  return updateBorder([[firstCell, firstSign], [secondCell, secondSign]], flag);
 }
 
 function updateBorder(cells, flag) {
@@ -61,3 +62,21 @@ function updateBorder(cells, flag) {
     }
   });
 }
+
+function checkComplete() {
+  return Array.from(cells).every(el => el.classList.contains("card__rotate"));
+}
+
+function showSign(sign) {
+  return setTimeout(() => sign.classList.add("show"), 300);
+}
+
+function hideSign(sign) {
+  return setTimeout(() => sign.classList.remove("show"));
+}
+
+cells.forEach((element) => {
+  element.addEventListener("click", (event) => rotateCell(event));
+});
+
+restartGameButton.addEventListener("click", restartGame)
