@@ -1,0 +1,42 @@
+section {
+    display: grid;
+    grid-template-columns: repeat(5, 42px);
+    width: 100%;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.card__pair {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid gray;
+    min-width: 40px;
+    height: 40px;
+    perspective: 100px;
+    transition: all 0.3s ease-in-out;
+    transform: unset;
+}
+
+.card__rotate {
+    transform: rotateY(180deg);
+    transition: all 0.3s ease-in-out;
+}
+
+.correct {
+    border: 1px solid rgb(130, 243, 130);
+}
+
+.wrong {
+    border: 1px solid salmon;
+}
+
+.card__sign {
+    display: none;
+    transform: rotateY(180deg);
+}
+
+.show {
+    display: flex;
+}
