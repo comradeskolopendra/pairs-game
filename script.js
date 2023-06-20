@@ -1,12 +1,36 @@
-const cells = document.querySelectorAll(".card__pair");
+const board = [1, 3, 7, 8, 9, 5, 4, 2, 6, 10, 1, 3, 7, 8, 9, 5, 4, 2, 6, 10];
+let cells;
+let restartGameButton;
 const title = document.querySelector("h1");
 const restartGameContainer = document.querySelector(".game__footer");
-const restartGameButton = document.querySelector("#restart");
+
+function renderGame() {
+  const gameContainer = document.querySelector("#game");
+  board.forEach(el => gameContainer.appendChild(createCell(el)))
+
+  cells = document.querySelectorAll(".card__pair");
+  restartGameButton = document.querySelector("#restart");
+
+  startGame();
+}
+
+function createCell(signElement) {
+  const cellContainer = document.createElement("div");
+  const signContainer = document.createElement("div");
+  cellContainer.classList.add("card__pair");
+  signContainer.classList.add("card__sign");
+
+  cellContainer.setAttribute("data-active", false);
+  signContainer.textContent = signElement;
+  cellContainer.appendChild(signContainer);
+
+  return cellContainer
+}
 
 function rotateCell(event) {
   const cell = event.currentTarget;
   cell.classList.add("card__rotate");
-  cell.dataset.active = "true";
+  setActive(cell, true);
   const activeCells = document.querySelectorAll(`[data-active="true"]`);
   const sign = cell.querySelector(".card__sign");
 
@@ -39,8 +63,8 @@ function compareCells(firstCell, secondCell) {
   const firstSign = firstCell.querySelector(".card__sign");
   const secondSign = secondCell.querySelector(".card__sign");
 
-  firstCell.dataset.active = "false";
-  secondCell.dataset.active = "false";
+  setActive(firstCell, false);
+  setActive(secondCell, false)
 
   if (firstSign.textContent === secondSign.textContent) {
     flag = true;
@@ -72,11 +96,20 @@ function showSign(sign) {
 }
 
 function hideSign(sign) {
-  return setTimeout(() => sign.classList.remove("show"));
+  return sign.classList.remove("show");
 }
 
-cells.forEach((element) => {
-  element.addEventListener("click", (event) => rotateCell(event));
-});
+function setActive(element, value) {
+  element.dataset.active = value;
+}
 
-restartGameButton.addEventListener("click", restartGame)
+function startGame() {
+  window.addEventListener("DOMContentLoaded", () => {
+    cells.forEach((element) => {
+      element.addEventListener("click", (event) => rotateCell(event));
+    });
+    restartGameButton.addEventListener("click", restartGame)
+  })
+}
+
+renderGame();
