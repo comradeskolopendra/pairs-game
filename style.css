@@ -1,55 +1,62 @@
 #game {
-    display: grid;
-    grid-template-columns: repeat(5, 42px);
-    width: 100%;
-    gap: 5px;
-    justify-content: center;
-    align-items: center;
+  display: grid;
+  grid-template-columns: repeat(5, 42px);
+  width: 100%;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
 }
 
 .game__heading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game__info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .card__pair {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid gray;
-    min-width: 40px;
-    height: 40px;
-    perspective: 100px;
-    transition: all 0.3s ease-in-out;
-    transform: unset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid gray;
+  min-width: 40px;
+  height: 40px;
+  perspective: 100px;
+  transition: all 0.3s ease-in-out;
+  transform: unset;
 }
 
 .card__rotate {
-    transform: rotateY(180deg);
-    transition: all 0.3s ease-in-out;
+  transform: rotateY(180deg);
+  transition: all 0.3s ease-in-out;
 }
 
 .correct {
-    border: 1px solid rgb(130, 243, 130);
+  border: 1px solid rgb(130, 243, 130);
 }
 
 .wrong {
-    border: 1px solid salmon;
+  border: 1px solid salmon;
 }
 
 .card__sign {
-    display: none;
-    transform: rotateY(180deg);
+  display: none;
+  transform: rotateY(180deg);
 }
 
 .game__footer {
-    display: none;
-    justify-content: center;
-    align-items: center;
-    margin-top: 15px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
 }
 
 .show {
-    display: flex;
+  display: flex;
 }

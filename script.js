@@ -1,9 +1,9 @@
-// const board = [1, 3, 7, 8, 9, 5, 4, 2, 6, 10, 1, 3, 7, 8, 9, 5, 4, 2, 6, 10];
 let board;
 let cells;
 let restartGameButton = document.querySelector("#restart");
-const title = document.querySelector("h1");
+const title = document.querySelector("#win");
 const restartGameContainer = document.querySelector(".game__footer");
+const timeEl = document.querySelector("#timer");
 
 function randomizeCells(pairsAmount) {
   let filledArray = [...Array(pairsAmount)].map(
@@ -12,15 +12,28 @@ function randomizeCells(pairsAmount) {
   return shuffle(filledArray).concat(shuffle(filledArray));
 }
 
-function shuffle(array) {
-  return array.slice().sort(() => Math.random() - 0.5);
+function timer(value, element) {
+  const interval = setInterval(() => {
+    if (value <= 0) {
+      return clearInterval(interval);
+    }
+
+    element.textContent = value;
+    value = value - 1;
+  }, 1000);
+
+  return interval;
+}
+
+function initGame() {
+  board = randomizeCells(20);
+  const startButton = document.querySelector("#start");
+  startButton.addEventListener("click", renderGame);
 }
 
 function renderGame() {
-  board = randomizeCells(20);
   const gameContainer = document.querySelector("#game");
   board.forEach((el) => gameContainer.appendChild(createCell(el)));
-
   cells = document.querySelectorAll(".card__pair");
 
   startGame();
@@ -117,17 +130,21 @@ function hideSign(sign) {
   return sign.classList.remove("show");
 }
 
+function shuffle(array) {
+  return array.slice().sort(() => Math.random() - 0.5);
+}
+
 function setActive(element, value) {
   element.dataset.active = value;
 }
 
 function startGame() {
-  window.addEventListener("DOMContentLoaded", () => {
-    cells.forEach((element) => {
-      element.addEventListener("click", (event) => rotateCell(event));
-    });
-    restartGameButton.addEventListener("click", restartGame);
+  cells.forEach((element) => {
+    element.addEventListener("click", (event) => rotateCell(event));
   });
+  restartGameButton.addEventListener("click", restartGame);
+
+  timer(200, timeEl);
 }
 
-renderGame();
+initGame();
