@@ -1,30 +1,38 @@
-const board = [1, 3, 7, 8, 9, 5, 4, 2, 6, 10, 1, 3, 7, 8, 9, 5, 4, 2, 6, 10];
+// const board = [1, 3, 7, 8, 9, 5, 4, 2, 6, 10, 1, 3, 7, 8, 9, 5, 4, 2, 6, 10];
+let board;
 let cells;
-let restartGameButton;
+let restartGameButton = document.querySelector("#restart");
 const title = document.querySelector("h1");
 const restartGameContainer = document.querySelector(".game__footer");
 
+function randomizeCells(pairsAmount) {
+  let filledArray = [...Array(pairsAmount)].map(
+    (element, index) => (element = index)
+  );
+  return shuffle(filledArray).concat(filledArray);
+}
+
 function renderGame() {
+  board = randomizeCells(20);
   const gameContainer = document.querySelector("#game");
-  board.forEach(el => gameContainer.appendChild(createCell(el)))
+  board.forEach((el) => gameContainer.appendChild(createCell(el)));
 
   cells = document.querySelectorAll(".card__pair");
-  restartGameButton = document.querySelector("#restart");
 
   startGame();
 }
 
-function createCell(signElement) {
-  const cellContainer = document.createElement("div");
+function createCell(sign) {
+  const cell = document.createElement("div");
   const signContainer = document.createElement("div");
-  cellContainer.classList.add("card__pair");
+  cell.classList.add("card__pair");
   signContainer.classList.add("card__sign");
 
-  cellContainer.setAttribute("data-active", false);
-  signContainer.textContent = signElement;
-  cellContainer.appendChild(signContainer);
+  cell.setAttribute("data-active", false);
+  signContainer.textContent = sign;
+  cell.appendChild(signContainer);
 
-  return cellContainer
+  return cell;
 }
 
 function rotateCell(event) {
@@ -37,7 +45,7 @@ function rotateCell(event) {
   showSign(sign);
 
   if (checkComplete()) {
-    title.textContent = "Вы выиграли!"
+    title.textContent = "Вы выиграли!";
     restartGameContainer.classList.add("show");
   }
 
@@ -47,12 +55,12 @@ function rotateCell(event) {
 }
 
 function restartGame() {
-  cells.forEach(element => {
+  cells.forEach((element) => {
     const sign = element.querySelector(".card__sign");
 
     hideSign(sign);
-    element.classList.remove("correct", "card__rotate")
-  })
+    element.classList.remove("correct", "card__rotate");
+  });
 
   title.textContent = "";
   restartGameContainer.classList.remove("show");
@@ -64,13 +72,19 @@ function compareCells(firstCell, secondCell) {
   const secondSign = secondCell.querySelector(".card__sign");
 
   setActive(firstCell, false);
-  setActive(secondCell, false)
+  setActive(secondCell, false);
 
   if (firstSign.textContent === secondSign.textContent) {
     flag = true;
   }
 
-  return updateBorder([[firstCell, firstSign], [secondCell, secondSign]], flag);
+  return updateBorder(
+    [
+      [firstCell, firstSign],
+      [secondCell, secondSign],
+    ],
+    flag
+  );
 }
 
 function updateBorder(cells, flag) {
@@ -88,7 +102,7 @@ function updateBorder(cells, flag) {
 }
 
 function checkComplete() {
-  return Array.from(cells).every(el => el.classList.contains("card__rotate"));
+  return Array.from(cells).every((el) => el.classList.contains("card__rotate"));
 }
 
 function showSign(sign) {
@@ -97,6 +111,10 @@ function showSign(sign) {
 
 function hideSign(sign) {
   return sign.classList.remove("show");
+}
+
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
 }
 
 function setActive(element, value) {
@@ -108,8 +126,8 @@ function startGame() {
     cells.forEach((element) => {
       element.addEventListener("click", (event) => rotateCell(event));
     });
-    restartGameButton.addEventListener("click", restartGame)
-  })
+    restartGameButton.addEventListener("click", restartGame);
+  });
 }
 
 renderGame();
