@@ -9,7 +9,11 @@ function randomizeCells(pairsAmount) {
   let filledArray = [...Array(pairsAmount)].map(
     (element, index) => (element = index)
   );
-  return shuffle(filledArray).concat(filledArray);
+  return shuffle(filledArray).concat(shuffle(filledArray));
+}
+
+function shuffle(array) {
+  return array.slice().sort(() => Math.random() - 0.5);
 }
 
 function renderGame() {
@@ -111,10 +115,6 @@ function showSign(sign) {
 
 function hideSign(sign) {
   return sign.classList.remove("show");
-}
-
-function shuffle(array) {
-  return array.sort(() => Math.random() - 0.5);
 }
 
 function setActive(element, value) {
