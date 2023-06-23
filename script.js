@@ -106,11 +106,13 @@ function compareCells(firstCell, secondCell) {
 
 function updateBorder(cells, flag) {
   cells.forEach(([element, sign]) => {
+    element.removeEventListener("click", rotateCell);
     if (!flag) {
       element.classList.add("wrong");
       setTimeout(() => {
         element.classList.remove("wrong", "card__rotate");
         hideSign(sign);
+        element.addEventListener("click", rotateCell);
       }, 800);
     } else {
       element.classList.add("correct");
@@ -140,7 +142,7 @@ function setActive(element, value) {
 
 function startGame() {
   cells.forEach((element) => {
-    element.addEventListener("click", (event) => rotateCell(event));
+    element.addEventListener("click", rotateCell);
   });
   restartGameButton.addEventListener("click", restartGame);
 
